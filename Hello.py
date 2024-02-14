@@ -67,7 +67,7 @@ if prompt := st.chat_input("Ask a question..."):
         # Add source information
         for source in sources:
                 st.markdown(source["id"])
-                with st.expander(source["content"][:50]:
+                with st.expander(source["content"][:50]):
                         st.write(source["content"])
 
     st.session_state.messages.append({"role": "assistant", "content": answer})
