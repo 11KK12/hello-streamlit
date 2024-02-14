@@ -67,6 +67,8 @@ if prompt := st.chat_input("Ask a question..."):
     st.session_state.messages.append({"role": "assistant", "content": answer})
     
     # Add source information
+    if len(sources) == 0:
+        st.warning("No sources", icon="⚠️")
     for source in sources:
         st.markdown(source["id"])
         st.warning(source["id"], icon="⚠️")
