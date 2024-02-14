@@ -39,7 +39,7 @@ if prompt := st.chat_input("Ask a question..."):
         # Adjust filter
         filter_docs = st.session_state.filter_docs
         if len(filter_docs) <= 0:
-            filter = ""
+            filter = "title eq 'no sources provided'"
         else:
             filter = "title eq '" + filter_docs[0] + "'"
             if len(filter_docs) > 1:
@@ -70,10 +70,9 @@ if prompt := st.chat_input("Ask a question..."):
     if len(sources) == 0:
         st.warning("No sources", icon="⚠️")
     for source in sources:
-        #st.markdown(source[0])
         #st.markdown(source)
-        with st.expander("Read source..."):
-                st.write(source[0])
+        with st.expander("Read source [" + source[0] + "]..."):
+                st.write(source[1])
         #with st.expander(source[1][:50]):
                 #st.write(source[1])
 
