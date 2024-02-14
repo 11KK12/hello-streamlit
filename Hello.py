@@ -56,13 +56,17 @@ if prompt := st.chat_input("Ask a question..."):
         history = st.session_state.history
         prompt_history = st.session_state.prompt_history
 
-        answer, prompt_history, history = run_rag_pipeline(user_input=prompt, temperature=temperature, filter=filter, k=k, prompt_history=prompt_history, history=history)
+        answer, prompt_history, history, sources = run_rag_pipeline(user_input=prompt, temperature=temperature, filter=filter, k=k, prompt_history=prompt_history, history=history)
 
         # Save chat history in session state
         st.session_state.history = history
         st.session_state.prompt_history = prompt_history
 
         message_placeholder.markdown(answer)
+        
+        with st.sidebar:
+                for source in sources:
+                        st.write(source["id"] + ": " + source["content"])
 
     st.session_state.messages.append({"role": "assistant", "content": answer})
 
