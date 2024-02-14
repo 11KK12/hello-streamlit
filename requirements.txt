@@ -3,3 +3,6 @@ numpy
 pandas
 pydeck
 streamlit
+openai==0.28
+tenacity
+azure-search-documents==11.4.0b8
