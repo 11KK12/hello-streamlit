@@ -6,7 +6,7 @@ st.set_page_config(
         page_title="ESEF Reports Chat",
         page_icon="📈",
     )
-st.title("ESEF Reports Chat")
+st.title("ESEF Reports - Chat")
 
 # Initialize session state
 if "prompt_history" not in st.session_state:
@@ -17,6 +17,9 @@ if "history" not in st.session_state:
     st.session_state.history = []
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "filter_docs" not in st.session_state:
+    st.session_state.filter_docs = []
+
 
 # Show current chat messages
 for message in st.session_state.messages:
@@ -24,7 +27,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Run RAG pipeline when user enters new question
-if prompt := st.chat_input("Ask a question"):
+if prompt := st.chat_input("Ask a question..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
@@ -33,7 +36,19 @@ if prompt := st.chat_input("Ask a question"):
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
 
-        filter = "" #default: no filter; example: filter = "title eq 'finnair'"
+        # Adjust filter
+        filter_docs = st.session_state.filter_docs
+        if len(filter_docs) <= 0:
+            filter = ""
+        else:
+            filter = "title eq '" + filter_docs[0] + "'"
+            if len(filter_docs) > 1:
+                for filter_doc in filter_docs[1:]:
+                    filter += " or title eq '" + filter_doc + "'"
+
+        st.warning(filter, icon="⚠️")
+
+        # TODO: adjust k and temp?
         k = 2 # number of search results to be included in the prompt
         temperature = 0.2 # controls the randomness of the generation.
 
@@ -50,3 +65,28 @@ if prompt := st.chat_input("Ask a question"):
         message_placeholder.markdown(answer)
 
     st.session_state.messages.append({"role": "assistant", "content": answer})
+
+def change_filter(data_source: str, checked: bool):
+    filter_docs = st.session_state.filter_docs
+    if checked:
+        if data_source not in filter_docs:
+            filter_docs.append(data_source)
+            st.session_state.filter_docs = filter_docs
+    else:
+        if data_source in filter_docs:
+            filter_docs.remove(data_source)
+            st.session_state.filter_docs = filter_docs
+
+with st.sidebar:
+    st.title("Select source documents: ")
+    for data_source in ["finnair","yitgroup","nokia","tietoevry","citycon","743700G7A9J1PHM3X223-2022-12-31-FI","srv","fortum"," outokumpu","qt","nokianrenkaat","uponor"]:
+        if st.checkbox(data_source, value=True):
+            change_filter(data_source, True)
+        else: 
+            change_filter(data_source, False)
+           # st.session_state.filter_docs.append(data_source)
+
+    st.title("Explore last used sources:")
+
+
+    # TODO: adjust k and temp?
