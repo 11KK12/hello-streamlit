@@ -73,7 +73,7 @@ if prompt := st.chat_input("Ask a question..."):
         #st.markdown(source[0])
         #st.markdown(source)
         with st.expander("Read source..."):
-                st.write(source)
+                st.write(source[0])
         #with st.expander(source[1][:50]):
                 #st.write(source[1])
 
@@ -96,8 +96,5 @@ with st.sidebar:
         else: 
             change_filter(data_source, False)
            # st.session_state.filter_docs.append(data_source)
-
-    st.title("Explore last used sources:")
-
 
     # TODO: adjust k and temp?
