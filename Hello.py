@@ -35,7 +35,6 @@ if prompt := st.chat_input("Ask a question..."):
 
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        source_placeholder = st.empty()
 
         # Adjust filter
         filter_docs = st.session_state.filter_docs
@@ -65,14 +64,14 @@ if prompt := st.chat_input("Ask a question..."):
 
         message_placeholder.markdown(answer)
 
-        # Add source information
-        for source in sources:
-                #st.markdown(source["id"])
-                source_placeholder.markdown(source["id"])
-                with st.expander(source["content"][:50]):
-                        st.write(source["content"])
-
     st.session_state.messages.append({"role": "assistant", "content": answer})
+    
+    # Add source information
+    for source in sources:
+        st.markdown(source["id"])
+        st.warning(source["id"], icon="⚠️")
+        with st.expander(source["content"][:50]):
+                st.write(source["content"])
 
 def change_filter(data_source: str, checked: bool):
     filter_docs = st.session_state.filter_docs
