@@ -70,10 +70,11 @@ if prompt := st.chat_input("Ask a question..."):
     if len(sources) == 0:
         st.warning("No sources", icon="⚠️")
     for source in sources:
-        st.markdown(source[0])
-        st.warning(source[0], icon="⚠️")
-        with st.expander(source[1][:50]):
-                st.write(source[1])
+        #st.markdown(source[0])
+        st.markdown(source)
+        st.warning(source, icon="⚠️")
+        #with st.expander(source[1][:50]):
+                #st.write(source[1])
 
 def change_filter(data_source: str, checked: bool):
     filter_docs = st.session_state.filter_docs
