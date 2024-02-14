@@ -35,6 +35,7 @@ if prompt := st.chat_input("Ask a question..."):
 
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
+        source_placeholder = st.empty()
 
         # Adjust filter
         filter_docs = st.session_state.filter_docs
@@ -46,7 +47,7 @@ if prompt := st.chat_input("Ask a question..."):
                 for filter_doc in filter_docs[1:]:
                     filter += " or title eq '" + filter_doc + "'"
 
-        st.warning(filter, icon="⚠️")
+        #st.warning(filter, icon="⚠️")
 
         # TODO: adjust k and temp?
         k = 2 # number of search results to be included in the prompt
@@ -66,7 +67,8 @@ if prompt := st.chat_input("Ask a question..."):
 
         # Add source information
         for source in sources:
-                st.markdown(source["id"])
+                #st.markdown(source["id"])
+                source_placeholder.markdown(source["id"])
                 with st.expander(source["content"][:50]):
                         st.write(source["content"])
 
