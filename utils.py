@@ -92,7 +92,7 @@ def run_rag_pipeline(user_input: str, temperature: int, filter: str, k: int, pro
 
     # Searching for documents
     r = search(query=query, filter=filter, k=k)
-    sources = [(doc["id"], doc["content"] for doc in r]
+    sources = [(doc["id"], doc["content"]) for doc in r]
     results = [source[0] + ": " + source[1].replace("\n", " ").replace("\r", " ") for source in sources]
     #results = [doc["id"] + ": " + doc["content"].replace("\n", " ").replace("\r", " ") for doc in r]
     content = "\n".join(results)
