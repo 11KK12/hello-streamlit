@@ -112,4 +112,4 @@ def run_rag_pipeline(user_input: str, temperature: int, filter: str, k: int, pro
     history.append("user: " + user_input)
     history.append("assistant: " + completion.choices[0].text)
 
-    return answer, prompt_history, history
+    return answer, prompt_history, history, r
