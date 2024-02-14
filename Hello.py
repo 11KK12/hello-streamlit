@@ -71,8 +71,9 @@ if prompt := st.chat_input("Ask a question..."):
         st.warning("No sources", icon="⚠️")
     for source in sources:
         #st.markdown(source[0])
-        st.markdown(source)
-        st.warning(source, icon="⚠️")
+        #st.markdown(source)
+        with st.expander("Read source..."):
+                st.write(source)
         #with st.expander(source[1][:50]):
                 #st.write(source[1])
 
