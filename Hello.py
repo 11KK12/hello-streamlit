@@ -66,6 +66,7 @@ if prompt := st.chat_input("Ask a question..."):
         
         with st.sidebar:
                 for source in sources:
+                        # add st.expander
                         st.write(source["id"] + ": " + source["content"])
 
     st.session_state.messages.append({"role": "assistant", "content": answer})
