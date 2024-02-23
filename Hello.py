@@ -22,7 +22,7 @@ if "filter_docs" not in st.session_state:
 
 # if chat is empty, add initial welcome message by chat bot
 if st.session_state.messages == []:
-    st.session_state.messages.append({"role": "assistant", "content": "Hi, I am an AI chatbot that has been fed with information from the annual reports of finnish companies. Feel free to ask me anything you want to know, e.g., 'Who was the auditor of FinnAir?' or 'What kind of sustainable activities does Fortum conduct?'"})
+    st.session_state.messages.append({"role": "assistant", "content": 'Hei, olen tekoäly-chatbot, jolle on syötetty tietoja suomalaisten yritysten vuosikertomuksista. Voit vapaasti kysyä minulta mitä vain haluat tietää, esim. "Kuka oli FinnAirin tilintarkastaja?" tai "Millaista kestävää toimintaa Fortum harjoittaa?".'})
 
 # Show current chat messages
 for message in st.session_state.messages:
@@ -30,7 +30,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Run RAG pipeline when user enters new question
-if prompt := st.chat_input("Ask a question..."):
+if prompt := st.chat_input("Kysy kysymys..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
@@ -74,10 +74,8 @@ if prompt := st.chat_input("Ask a question..."):
         st.warning("No sources", icon="⚠️")
     for source in sources:
         #st.markdown(source)
-        with st.expander("Read source [" + source[0] + "]..."):
+        with st.expander("Lue lähde  [" + source[0] + "]..."):
                 st.write(source[1])
-        #with st.expander(source[1][:50]):
-                #st.write(source[1])
 
 def change_filter(data_source: str, checked: bool):
     filter_docs = st.session_state.filter_docs
@@ -91,7 +89,7 @@ def change_filter(data_source: str, checked: bool):
             st.session_state.filter_docs = filter_docs
 
 with st.sidebar:
-    st.title("Select source documents: ")
+    st.title("Valitse lähdeasiakirjat: ")
     for data_source in ["finnair","yitgroup","nokia","tietoevry","citycon","743700G7A9J1PHM3X223-2022-12-31-FI","srv","fortum"," outokumpu","qt","nokianrenkaat","uponor"]:
         if st.checkbox(data_source, value=True):
             change_filter(data_source, True)
