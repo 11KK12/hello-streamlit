@@ -22,16 +22,21 @@ if "filter_docs" not in st.session_state:
 
 # if chat is empty, add initial welcome message by chat bot
 if st.session_state.messages == []:
-    st.session_state.messages.append({"role": "assistant", "content": 'Hei, olen tekoäly-chatbot, jolle on syötetty tietoja suomalaisten yritysten vuosikertomuksista. Voit vapaasti kysyä minulta mitä vain haluat tietää, esim. "Kuka oli FinnAirin tilintarkastaja?" tai "Millaista kestävää toimintaa Fortum harjoittaa?".'})
+    st.session_state.messages.append({"answer": {"role": "assistant", "content": 'Hei, olen tekoäly-chatbot, jolle on syötetty tietoja suomalaisten yritysten vuosikertomuksista. Voit vapaasti kysyä minulta mitä vain haluat tietää, esim. "Kuka oli FinnAirin tilintarkastaja?" tai "Millaista kestävää toimintaa Fortum harjoittaa?".'}, "sources": []})
 
 # Show current chat messages
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    answer = message["answer"]
+    with st.chat_message(answer["role"]):
+        st.markdown(answer["content"])
+        for source in message["sources"]:
+            with st.expander("Lue lähde  [" + source[0] + "]..."):
+                # ToDo: **highlight** source sentences in markdown? source retrieval with guardrails?
+                st.write(source[1])
 
 # Run RAG pipeline when user enters new question
 if prompt := st.chat_input("Kysy kysymys..."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"answer": {"role": "user", "content": prompt}, "sources": []})
 
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -67,7 +72,7 @@ if prompt := st.chat_input("Kysy kysymys..."):
 
         message_placeholder.markdown(answer)
 
-    st.session_state.messages.append({"role": "assistant", "content": answer})
+    st.session_state.messages.append({"answer": {"role": "assistant", "content": answer}, "sources": sources})
     
     # Add source information
     if len(sources) == 0:
