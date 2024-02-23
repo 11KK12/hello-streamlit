@@ -20,6 +20,9 @@ if "messages" not in st.session_state:
 if "filter_docs" not in st.session_state:
     st.session_state.filter_docs = []
 
+# if chat is empty, add initial welcome message by chat bot
+if st.session_state.messages == []:
+    st.session_state.messages.append({"role": "assistant", "content": "Hi, I am an AI chatbot that has been fed with information from the annual reports of finnish companies. Feel free to ask me anything you want to know, e.g., 'Who was the auditor of FinnAir?' or 'What kind of sustainable activities does Fortum conduct?'"})
 
 # Show current chat messages
 for message in st.session_state.messages:
@@ -49,7 +52,7 @@ if prompt := st.chat_input("Ask a question..."):
         #st.warning(filter, icon="⚠️")
 
         # TODO: adjust k and temp?
-        k = 2 # number of search results to be included in the prompt
+        k = 5 # number of search results to be included in the prompt
         temperature = 0.2 # controls the randomness of the generation.
 
         # load chat history from session state for multi-question conversations
