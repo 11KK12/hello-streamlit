@@ -28,7 +28,8 @@ if st.session_state.messages == []:
 for message in st.session_state.messages:
     answer = message["answer"]
     with st.chat_message(answer["role"]):
-        st.markdown(answer["content"])
+        #st.markdown(answer["content"])
+        st.write_stream(answer["content"])
         for source in message["sources"]:
             with st.expander("Lue lähde  [" + source[0] + "]..."):
                 # ToDo: **highlight** source sentences in markdown? source retrieval with guardrails?
@@ -69,8 +70,7 @@ if prompt := st.chat_input("Kysy kysymys..."):
             # Save chat history in session state
             st.session_state.history = history
             st.session_state.prompt_history = prompt_history
-            #message_placeholder.markdown(answer)
-            message_placeholder.write_stream(answer)
+            message_placeholder.markdown(answer)
             st.session_state.messages.append({"answer": {"role": "assistant", "content": answer}, "sources": sources})
 
             # Add source information
