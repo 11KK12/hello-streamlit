@@ -69,7 +69,8 @@ if prompt := st.chat_input("Kysy kysymys..."):
             # Save chat history in session state
             st.session_state.history = history
             st.session_state.prompt_history = prompt_history
-            message_placeholder.markdown(answer)
+            #message_placeholder.markdown(answer)
+            message_placeholder.write_stream(answer)
             st.session_state.messages.append({"answer": {"role": "assistant", "content": answer}, "sources": sources})
 
             # Add source information
