@@ -64,24 +64,24 @@ if prompt := st.chat_input("Kysy kysymys..."):
         history = st.session_state.history
         prompt_history = st.session_state.prompt_history
 
-        answer, prompt_history, history, sources = run_rag_pipeline(user_input=prompt, temperature=temperature, filter=filter, k=k, prompt_history=prompt_history, history=history)
+        try:
+            answer, prompt_history, history, sources = run_rag_pipeline(user_input=prompt, temperature=temperature, filter=filter, k=k, prompt_history=prompt_history, history=history)
+            # Save chat history in session state
+            st.session_state.history = history
+            st.session_state.prompt_history = prompt_history
+            message_placeholder.markdown(answer)
+            st.session_state.messages.append({"answer": {"role": "assistant", "content": answer}, "sources": sources})
 
-        # Save chat history in session state
-        st.session_state.history = history
-        st.session_state.prompt_history = prompt_history
-
-        message_placeholder.markdown(answer)
-
-    st.session_state.messages.append({"answer": {"role": "assistant", "content": answer}, "sources": sources})
-    
-    # Add source information
-    if len(sources) == 0:
-        st.warning("No sources", icon="⚠️")
-    for source in sources:
-        #st.markdown(source)
-        with st.expander("Lue lähde  [" + source[0] + "]..."):
-                # ToDo: **highlight** source sentences in markdown? source retrieval with guardrails?
-                st.write(source[1])
+            # Add source information
+            if len(sources) == 0:
+                st.warning("No sources", icon="⚠️")
+            for source in sources:
+                #st.markdown(source)
+                with st.expander("Lue lähde  [" + source[0] + "]..."):
+                        # ToDo: **highlight** source sentences in markdown? source retrieval with guardrails?
+                        st.write(source[1])
+        except Exception as e:
+            st.warning("The following error occured: " + repr(e), icon="⚠️")
 
 def change_filter(data_source: str, checked: bool):
     filter_docs = st.session_state.filter_docs
