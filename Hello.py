@@ -1,6 +1,12 @@
 import streamlit as st
 from utils import run_rag_pipeline
 
+# function for chat animation
+def stream_text(text: str):
+    for word in text.split():
+        yield word + " "
+        time.sleep(0.02)
+            
 # Page setup
 st.set_page_config(
         page_title="ESEF Reports Chat",
@@ -29,7 +35,7 @@ for message in st.session_state.messages:
     answer = message["answer"]
     with st.chat_message(answer["role"]):
         #st.markdown(answer["content"])
-        st.write_stream(answer["content"])
+        st.write_stream(stream_text(answer["content"]))
         for source in message["sources"]:
             with st.expander("Lue lähde  [" + source[0] + "]..."):
                 # ToDo: **highlight** source sentences in markdown? source retrieval with guardrails?
