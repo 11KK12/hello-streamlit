@@ -1,4 +1,5 @@
 import streamlit as st
+import time
 from utils import run_rag_pipeline
 
 # function for chat animation
