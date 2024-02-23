@@ -22,7 +22,7 @@ if "filter_docs" not in st.session_state:
 
 # if chat is empty, add initial welcome message by chat bot
 if st.session_state.messages == []:
-    st.session_state.messages.append({"role": "assistant", "content": 'Hei, <mark> **Highligh Test** </mark> olen tekoäly-chatbot, jolle on syötetty tietoja suomalaisten yritysten vuosikertomuksista. Voit vapaasti kysyä minulta mitä vain haluat tietää, esim. "Kuka oli FinnAirin tilintarkastaja?" tai "Millaista kestävää toimintaa Fortum harjoittaa?".'})
+    st.session_state.messages.append({"role": "assistant", "content": 'Hei, olen tekoäly-chatbot, jolle on syötetty tietoja suomalaisten yritysten vuosikertomuksista. Voit vapaasti kysyä minulta mitä vain haluat tietää, esim. "Kuka oli FinnAirin tilintarkastaja?" tai "Millaista kestävää toimintaa Fortum harjoittaa?".'})
 
 # Show current chat messages
 for message in st.session_state.messages:
@@ -75,6 +75,7 @@ if prompt := st.chat_input("Kysy kysymys..."):
     for source in sources:
         #st.markdown(source)
         with st.expander("Lue lähde  [" + source[0] + "]..."):
+                # ToDo: **highlight** source sentences in markdown? source retrieval with guardrails?
                 st.write(source[1])
 
 def change_filter(data_source: str, checked: bool):
