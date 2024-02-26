@@ -73,6 +73,19 @@ if prompt := st.chat_input("Kysy kysymys..."):
 
         try:
             answer, prompt_history, history, sources = run_rag_pipeline(user_input=prompt, temperature=temperature, filter=filter, k=k, prompt_history=prompt_history, history=history)
+        except Exception as e:
+            # if models maximum content size has been exceeded, retry with reduced number of search results
+            #st.warning("The following error occured: " + repr(e), icon="⚠️")
+            x = k
+            while x > 1:
+                x -= 1
+                try:
+                    answer, prompt_history, history, sources = run_rag_pipeline(user_input=prompt, temperature=temperature, filter=filter, k=x, prompt_history=prompt_history, history=history)
+                    break
+                except:
+                    pass
+
+        if answer:
             # Save chat history in session state
             st.session_state.history = history
             st.session_state.prompt_history = prompt_history
@@ -88,8 +101,10 @@ if prompt := st.chat_input("Kysy kysymys..."):
                 with st.expander("Lue lähde  [" + source[0] + "]..."):
                         # ToDo: **highlight** source sentences in markdown? source retrieval with guardrails?
                         st.write(source[1])
-        except Exception as e:
-            st.warning("The following error occured: " + repr(e), icon="⚠️")
+        else:
+            message_placeholder.write_stream(stream_text("Error. No answer found."))
+            st.session_state.messages.append({"answer": {"role": "assistant", "content": "Error. No answer found."}, "sources": []})
+            
 
 def change_filter(data_source: str, checked: bool):
     filter_docs = st.session_state.filter_docs
