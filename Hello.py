@@ -104,7 +104,7 @@ def change_filter(data_source: str, checked: bool):
 
 with st.sidebar:
     st.title("Valitse lähdeasiakirjat: ")
-    for data_source in ["finnair","yitgroup","nokia","tietoevry","citycon","743700G7A9J1PHM3X223-2022-12-31-FI","srv","fortum"," outokumpu","qt","nokianrenkaat","uponor"]:
+    for data_source in ["finnair","yitgroup","nokia","tietoevry","citycon","wärtsilä","srv","fortum"," outokumpu","qt","nokianrenkaat","uponor"]:
         if st.checkbox(data_source, value=True):
             change_filter(data_source, True)
         else: 
