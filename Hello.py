@@ -83,8 +83,9 @@ if prompt := st.chat_input("Kysy kysymys..."):
                     answer, prompt_history, history, sources = run_rag_pipeline(user_input=prompt, temperature=temperature, filter=filter, k=x, prompt_history=prompt_history, history=history)
                     break
                 except:
-                    pass
-
+                    st.warning("Not able to generate answer. The following error occured: " + repr(e), icon="⚠️")
+                    answer = None
+                    
         if answer:
             # Save chat history in session state
             st.session_state.history = history
