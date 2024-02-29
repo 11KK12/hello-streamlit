@@ -90,7 +90,12 @@ if prompt := st.chat_input("Kysy kysymys..."):
             st.session_state.history = history
             st.session_state.prompt_history = prompt_history
             #message_placeholder.markdown(answer)
-            message_placeholder.write_stream(stream_text(answer))
+            try:
+                message_placeholder.write_stream(stream_text(answer))
+            except Exception as e:
+                st.warning(e, icon="⚠️")
+                message_placeholder.markdown(answer)
+                
             st.session_state.messages.append({"answer": {"role": "assistant", "content": answer}, "sources": sources})
 
             # Add source information
