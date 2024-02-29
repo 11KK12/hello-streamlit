@@ -3,7 +3,8 @@ from azure.core.credentials import AzureKeyCredential
 import openai
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from azure.search.documents import SearchClient
-from azure.search.documents.models import Vector 
+from azure.search.documents.models import Vector
+import os
 
 import streamlit as st
 
