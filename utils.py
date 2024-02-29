@@ -8,15 +8,26 @@ from azure.search.documents.models import Vector
 import streamlit as st
 
 # Set up openai
-openai.api_type = st.secrets["OPENAI_API_TYPE"]
-openai.api_key = st.secrets["OPENAI_API_KEY"]
-openai.api_base = st.secrets["OPENAI_API_BASE"]
-openai.api_version = st.secrets["OPENAI_API_VERSION"]
-gpt_engine_name = st.secrets["GPT_ENGINE_NAME"]
-embedding_engine_name = st.secrets["EMBEDDING_ENGINE_NAME"]
-search_index_name = "esef_reports_rag_index"
-search_endpoint = st.secrets["SEARCH_ENDPOINT"]
-search_key= st.secrets["SEARCH_KEY"]
+try:
+    openai.api_type = st.secrets["OPENAI_API_TYPE"]
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
+    openai.api_base = st.secrets["OPENAI_API_BASE"]
+    openai.api_version = st.secrets["OPENAI_API_VERSION"]
+    gpt_engine_name = st.secrets["GPT_ENGINE_NAME"]
+    embedding_engine_name = st.secrets["EMBEDDING_ENGINE_NAME"]
+    search_index_name = "esef_reports_rag_index"
+    search_endpoint = st.secrets["SEARCH_ENDPOINT"]
+    search_key= st.secrets["SEARCH_KEY"]
+except:
+    openai.api_type = os.environ["OPENAI_API_TYPE"]
+    openai.api_key = os.environ["OPENAI_API_KEY"]
+    openai.api_base = os.environ["OPENAI_API_BASE"]
+    openai.api_version = os.environ["OPENAI_API_VERSION"]
+    gpt_engine_name = os.environ["GPT_ENGINE_NAME"]
+    embedding_engine_name = os.environ["EMBEDDING_ENGINE_NAME"]
+    search_index_name = "esef_reports_rag_index"
+    search_endpoint = os.environ["SEARCH_ENDPOINT"]
+    search_key= os.environ["SEARCH_KEY"]
 
 summary_prompt_template = """Alla on yhteenveto tähänastisesta keskustelusta ja käyttäjän esittämä uusi kysymys, johon on vastattava etsimällä tietopankista. Luo hakukysely keskustelun ja uuden kysymyksen perusteella. Lähteiden nimet eivät ole hyviä hakusanoja, jotka kannattaa sisällyttää hakukyselyyn.
 
